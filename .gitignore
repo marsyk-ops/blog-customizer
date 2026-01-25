@@ -16,7 +16,7 @@ lerna-debug.log*
 .env.test
 
 build
-dist
+dist 
 .yarn
 
 storybook-static
