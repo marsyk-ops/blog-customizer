@@ -5,5 +5,4 @@ storybook-static
 build
 dist
 webpack/*.js
-package*.json 
-    
+package*.json
