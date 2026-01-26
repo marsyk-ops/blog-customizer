@@ -1,24 +1,29 @@
 import { useEffect } from 'react';
 
 type UseOutsideClickClose = {
-	isOpen: boolean;
+	isMenuOpen: boolean;
 	onChange: (newValue: boolean) => void;
 	onClose?: () => void;
 	rootRef: React.RefObject<HTMLElement>;
 };
 
 export const useOutsideClickClose = ({
-	isOpen,
+	isMenuOpen,
 	rootRef,
 	onClose,
 	onChange,
 }: UseOutsideClickClose) => {
 	useEffect(() => {
+		// Если меню закрыто — не навешиваем обработчик
+		if (!isMenuOpen) {
+			return;
+		}
+
 		const handleClick = (event: MouseEvent) => {
 			const { target } = event;
 			if (target instanceof Node && !rootRef.current?.contains(target)) {
-				isOpen && onClose?.();
-				onChange?.(false);
+				onClose?.();
+				onChange(false);
 			}
 		};
 
@@ -27,5 +32,5 @@ export const useOutsideClickClose = ({
 		return () => {
 			window.removeEventListener('mousedown', handleClick);
 		};
-	}, [onClose, onChange, isOpen, rootRef]);
+	}, [isMenuOpen, rootRef, onClose, onChange]);
 };

@@ -28,45 +28,45 @@ export const ArticleParamsForm = ({
 	/*исправлен код с ошибками линтинга*/ appliedState,
 	onApply,
 }: ArticleParamsFormProps) => {
-	const [isOpen, setIsOpen] = useState<boolean>(false);
+	const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 	const [formState, setFormState] = useState<ArticleStateType>(appliedState);
 	const sidebarRef = useRef<HTMLElement>(null);
 
 	useOutsideClickClose({
-		isOpen,
+		isMenuOpen,
 		rootRef: sidebarRef,
-		onChange: setIsOpen,
+		onChange: setIsMenuOpen,
 	});
 
 	useEffect(() => {
-		if (isOpen) {
+		if (isMenuOpen) {
 			setFormState(appliedState);
 		}
-	}, [isOpen, appliedState]);
+	}, [isMenuOpen, appliedState]);
 
 	const handleToggleSidebar = () => {
-		setIsOpen((prev) => !prev);
+		setIsMenuOpen((prev) => !prev);
 	};
 
 	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		onApply(formState);
-		setIsOpen(false);
+		setIsMenuOpen(false);
 	};
 
 	const handleReset = () => {
 		setFormState(defaultArticleState);
 		onApply(defaultArticleState);
-		setIsOpen(false);
+		setIsMenuOpen(false);
 	};
 
 	return (
 		<>
-			<ArrowButton isOpen={isOpen} onClick={handleToggleSidebar} />
+			<ArrowButton isOpen={isMenuOpen} onClick={handleToggleSidebar} />
 			<aside
 				ref={sidebarRef}
 				className={clsx(styles.container, {
-					[styles.container_open]: isOpen,
+					[styles.container_open]: isMenuOpen,
 				})}>
 				<form className={styles.form} onSubmit={handleSubmit}>
 					<Select
